@@ -1,0 +1,32 @@
+#so that kubectl proxy works
+fullnameOverride: 'kubernetes-dashboard'
+protocolHttp: true
+metricsScraper:
+  enabled: true
+service:
+  externalPort: 9090
+resources:
+  limits:
+    cpu: 500m
+    memory: 1000Mi
+  requests:
+    cpu: 250m
+    memory: 300Mi
+image:
+  pullPolicy: Always
+extraArgs:
+  - --namespace=kubeaddons
+  - --enable-insecure-login
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.frontend.rule.type: PathPrefixStrip
+    traefik.ingress.kubernetes.io/auth-response-headers: X-Forwarded-User,Authorization,Impersonate-User,Impersonate-Group
+    traefik.ingress.kubernetes.io/auth-type: forward
+    traefik.ingress.kubernetes.io/auth-url: http://traefik-forward-auth-kubeaddons.kubeaddons.svc.cluster.local:4181/
+    traefik.ingress.kubernetes.io/priority: "2"
+  paths:
+    - /ops/portal/kubernetes
+  hosts:
+    - ""
