@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-kind create cluster
+kind create cluster --config=kind-config.yaml
 
 function seed_images() {
     for image in $(cat images.txt) ; do
@@ -21,11 +21,8 @@ flux create source helm kubernetes-dashboard --url=https://kubernetes.github.io/
 kubectl create ns metallb
 flux create helmrelease metallb --source HelmRepository/bitnami --chart=metallb --release-name=metallb --target-namespace=metallb --values=metallb.yaml --chart-version=1.0.1
 
-docker cp kind-control-plane:/etc/kubernetes/pki/ca.key .
-docker cp kind-control-plane:/etc/kubernetes/pki/ca.crt .
 kubectl create ns cert-manager
 kubectl create secret tls kubernetes-root-ca -n cert-manager --cert=ca.crt --key=ca.key
-rm ca.key ca.crt
 flux create helmrelease cert-manager --source HelmRepository/mesosphere-staging --chart=cert-manager-setup --release-name=cert-manager --target-namespace=cert-manager --values=cert-manager.yaml --chart-version=0.2.3
 
 kubectl create ns kubeaddons
