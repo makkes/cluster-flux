@@ -35,6 +35,6 @@ kubectl create secret generic -n kubeaddons ops-portal-credentials --from-litera
 kubectl create clusterrolebinding max --clusterrole=cluster-admin --user=max
 flux create helmrelease dex --source HelmRepository/mesosphere-stable --chart=dex --release-name=dex-kubeaddons --target-namespace=kubeaddons --values=dex.yaml --depends-on=traefik --chart-version=2.9.0
 
-flux create helmrelease traefik-forward-auth --source HelmRepository/mesosphere-staging --chart=traefik-forward-auth --release-name=traefik-forward-auth-kubeaddons --target-namespace=kubeaddons --values=traefik-forward-auth.yaml --depends-on=cert-manager
+flux create helmrelease traefik-forward-auth --source HelmRepository/mesosphere-staging --chart=traefik-forward-auth --release-name=traefik-forward-auth-kubeaddons --target-namespace=kubeaddons --values=traefik-forward-auth.yaml --depends-on=cert-manager --chart-version=0.2.14
 
-flux create helmrelease dashboard --source HelmRepository/kubernetes-dashboard --chart=kubernetes-dashboard --release-name=dashboard-kubeaddons --target-namespace=kubeaddons --values=dashboard.yaml
+flux create helmrelease dashboard --source HelmRepository/kubernetes-dashboard --chart=kubernetes-dashboard --release-name=dashboard-kubeaddons --target-namespace=kubeaddons --values=dashboard.yaml --chart-version=2.8.2
