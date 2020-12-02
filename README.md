@@ -5,7 +5,7 @@ This is a stripped-down version of [Konvoy](https://d2iq.com/products/konvoy), c
 ## Prerequisites
 
 * Have [kind](https://kind.sigs.k8s.io) installed
-* Have [Flux v2](https://toolkit.fluxcd.io/get-started/#install-the-flux-cli) installed
+* Have [Flux CLI v0.4.2](https://github.com/fluxcd/flux2/releases/tag/v0.4.2) installed
 * Have [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) installed
 
 This demo has only been tested on Linux. Expect to not being able to access the Traefik Dashboard from your browser when using macOS.
