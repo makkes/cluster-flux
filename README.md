@@ -2,8 +2,6 @@
 
 This is a stripped-down version of [Konvoy](https://d2iq.com/products/konvoy), capable of spinning up a local Kubernetes cluster with [kind](https://kind.sigs.k8s.io) and loading up some of Konvoy's [default Addons](https://github.com/mesosphere/kubernetes-base-addons) with [Flux v2](https://toolkit.fluxcd.io/).
 
-**This repo is supposed to host supporting code for the Flux lightning talk held on 2020/11/18.**
-
 ## Prerequisites
 
 * Have [kind](https://kind.sigs.k8s.io) installed
