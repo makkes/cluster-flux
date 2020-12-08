@@ -8,14 +8,16 @@ docker.io/mesosphere/dex:v2.22.0-2-g3657-d2iq
 docker.io/mesosphere/kubeaddons-addon-initializer:v0.2.12
 docker.io/mesosphere/kubeaddons-addon-initializer:v0.2.9
 docker.io/mesosphere/kubeaddons-addon-initializer:v0.3.0
-docker.io/mesosphere/kubeaddons-addon-initializer:v0.3.0docker.io/bitnami/metallb-controller:0.9.5-debian-10-r5
+docker.io/mesosphere/kubeaddons-addon-initializer:v0.3.0
+docker.io/bitnami/metallb-controller:0.9.5-debian-10-r5
 docker.io/mesosphere/traefik-forward-auth:2.0.5
 gcr.io/kubebuilder/kube-rbac-proxy:v0.4.0
 ghcr.io/fluxcd/helm-controller:v0.4.2
 ghcr.io/fluxcd/kustomize-controller:v0.4.0
 ghcr.io/fluxcd/notification-controller:v0.4.0
 ghcr.io/fluxcd/source-controller:v0.4.1
-ghcr.io/fluxcd/source-controller:v0.4.1quay.io/jetstack/cert-manager-controller:v1.0.1
+ghcr.io/fluxcd/source-controller:v0.4.1
+quay.io/jetstack/cert-manager-controller:v1.0.1
 kubernetesui/dashboard:v2.0.4
 kubernetesui/metrics-scraper:v1.0.6
 mesosphere/dex-controller:v0.6.5
@@ -26,5 +28,6 @@ mesosphere/traefik-forward-auth:2.0.5
 quay.io/jetstack/cert-manager-cainjector:v1.0.1
 quay.io/jetstack/cert-manager-controller:v1.0.1
 quay.io/jetstack/cert-manager-webhook:v1.0.1
-quay.io/jetstack/cert-manager-webhook:v1.0.1mesosphere/kubeaddons-addon-initializer:v0.2.12
+quay.io/jetstack/cert-manager-webhook:v1.0.1
+mesosphere/kubeaddons-addon-initializer:v0.2.12
 traefik:1.7.24
