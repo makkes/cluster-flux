@@ -1,0 +1,122 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubeaddons
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: traefik
+      sourceRef:
+        kind: HelmRepository
+        name: mesosphere-staging
+      version: 1.88.0
+  dependsOn:
+  - name: cert-manager
+  interval: 1m0s
+  releaseName: traefik-kubeaddons
+  targetNamespace: kubeaddons
+  values:
+    accessLogs:
+      enabled: true
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: kubeaddons.mesosphere.io/name
+                operator: In
+                values:
+                - traefik
+            topologyKey: kubernetes.io/hostname
+          weight: 1
+        - podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: kubeaddons.mesosphere.io/name
+                operator: In
+                values:
+                - traefik
+            topologyKey: failure-domain.beta.kubernetes.io/zone
+          weight: 1
+    dashboard:
+      domain: ""
+      enabled: true
+      ingress:
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.frontend.rule.type: PathPrefixStrip
+          traefik.ingress.kubernetes.io/auth-response-headers: X-Forwarded-User,Authorization,Impersonate-User,Impersonate-Group
+          traefik.ingress.kubernetes.io/auth-type: forward
+          traefik.ingress.kubernetes.io/auth-url: http://traefik-forward-auth-kubeaddons.kubeaddons.svc.cluster.local:4181/
+          traefik.ingress.kubernetes.io/priority: "2"
+        path: /ops/portal/traefik
+      serviceType: ClusterIP
+    deployment:
+      annotations:
+        configmap.reloader.stakater.com/reload: konvoyconfig-kubeaddons
+        secret.reloader.stakater.com/reload: traefik-kubeaddons-certificate
+      podLabels:
+        kubeaddons.mesosphere.io/name: traefik
+    extraSSLEntrypoints:
+      velero-minio:
+        address: :9000
+    extraServicePorts:
+    - name: velero-minio
+      port: 9000
+      protocol: TCP
+      targetPort: 9000
+    initCertJobImage: mesosphere/kubeaddons-addon-initializer:v0.3.0
+    initContainers:
+    - args:
+      - traefik
+      env:
+      - name: TRAEFIK_INGRESS_NAMESPACE
+        value: kubeaddons
+      - name: TRAEFIK_INGRESS_SERVICE_NAME
+        value: traefik-kubeaddons
+      - name: TRAEFIK_INGRESS_CERTIFICATE_NAME
+        value: traefik-kubeaddons
+      - name: TRAEFIK_INGRESS_CERTIFICATE_ISSUER
+        value: kubernetes-ca
+      - name: TRAEFIK_INGRESS_CERTIFICATE_SECRET_NAME
+        value: traefik-kubeaddons-certificate
+      - name: TRAEFIK_KONVOY_ADDONS_CONFIG_MAP
+        value: konvoyconfig-kubeaddons
+      - name: TRAEFIK_CLUSTER_HOSTNAME_KEY
+        value: clusterHostname
+      image: mesosphere/kubeaddons-addon-initializer:v0.3.0
+      name: initialize-traefik-certificate
+    kubernetes:
+      ingressEndpoint:
+        publishedService: kubeaddons/traefik-kubeaddons
+    metrics:
+      prometheus:
+        enabled: true
+        service:
+          labels:
+            servicemonitor.kubeaddons.mesosphere.io/path: metrics
+      serviceMonitor:
+        enabled: false
+    podDisruptionBudget:
+      minAvailable: 1
+    rbac:
+      enabled: true
+    replicas: 2
+    resources:
+      limits:
+        cpu: 1000m
+      requests:
+        cpu: 500m
+    ssl:
+      enabled: true
+      enforced: true
+      insecureSkipVerify: true
+      useCertManager: true
+
