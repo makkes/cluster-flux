@@ -1,0 +1,49 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: dashboard
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: kubernetes-dashboard
+      sourceRef:
+        kind: HelmRepository
+        name: kubernetes-dashboard
+      version: 2.8.2
+  interval: 1m0s
+  releaseName: dashboard-kubeaddons
+  targetNamespace: kubeaddons
+  values:
+    extraArgs:
+    - --namespace=kubeaddons
+    - --enable-insecure-login
+    fullnameOverride: kubernetes-dashboard
+    image:
+      pullPolicy: Always
+    ingress:
+      annotations:
+        kubernetes.io/ingress.class: traefik
+        traefik.frontend.rule.type: PathPrefixStrip
+        traefik.ingress.kubernetes.io/auth-response-headers: X-Forwarded-User,Authorization,Impersonate-User,Impersonate-Group
+        traefik.ingress.kubernetes.io/auth-type: forward
+        traefik.ingress.kubernetes.io/auth-url: http://traefik-forward-auth-kubeaddons.kubeaddons.svc.cluster.local:4181/
+        traefik.ingress.kubernetes.io/priority: "2"
+      enabled: true
+      hosts:
+      - ""
+      paths:
+      - /ops/portal/kubernetes
+    metricsScraper:
+      enabled: true
+    protocolHttp: true
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1000Mi
+      requests:
+        cpu: 250m
+        memory: 300Mi
+    service:
+      externalPort: 9090
