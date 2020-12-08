@@ -18,4 +18,4 @@ It's as simple as running
 ./up.sh
 ```
 
-After that you should be able to access the Kubernetes Dashboard at https://172.18.255.1/ops/portal/kubernetes/.
+After that you should be able to access the Kubernetes Dashboard at https://172.18.255.1/ops/portal/kubernetes/. Login with username 'demo' and password 'demo123'.
