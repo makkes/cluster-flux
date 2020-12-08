@@ -1,6 +1,6 @@
-# Konvoy Demo with Flux
+# Cluster Demo with Flux
 
-This is a stripped-down version of [Konvoy](https://d2iq.com/products/konvoy), capable of spinning up a local Kubernetes cluster with [kind](https://kind.sigs.k8s.io) and loading up some of Konvoy's [default Addons](https://github.com/mesosphere/kubernetes-base-addons) with [Flux v2](https://toolkit.fluxcd.io/).
+This is a simple demo of spinning up a basic Kubernetes cluster with [kind](https://kind.sigs.k8s.io) and loading up some Helm charts with [Flux v2](https://toolkit.fluxcd.io/).
 
 ## Prerequisites
 
