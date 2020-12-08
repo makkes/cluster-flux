@@ -9,7 +9,7 @@ function seed_images() {
     done
 }
 
-#seed_images
+seed_images
 
 flux install
 
