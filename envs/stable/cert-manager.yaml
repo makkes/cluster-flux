@@ -25,7 +25,7 @@ spec:
       chart: cert-manager-setup
       sourceRef:
         kind: HelmRepository
-        name: mesosphere-staging
+        name: mesosphere-stable
       version: ">=0.2.3 <0.3.0"
   interval: 1m0s
   releaseName: cert-manager
