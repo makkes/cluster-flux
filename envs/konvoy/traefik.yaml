@@ -17,12 +17,11 @@ spec:
         name: mesosphere-staging
       version: 1.88.0
   dependsOn:
-    - name: cert-manager
+  - name: cert-manager
   interval: 1m0s
   releaseName: traefik-kubeaddons
   targetNamespace: kubeaddons
   values:
-    ---
     # Configure Traefik for HA.
     replicas: 2
     podDisruptionBudget:
