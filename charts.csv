@@ -1,6 +1,0 @@
-bitnami,metallb,metallb.yaml,1.0.1
-mesosphere-staging,cert-manager-setup,cert-manager.yaml,0.2.3
-mesosphere-staging,traefik,traefik.yaml,1.88.0
-mesosphere-stable,dex,dex.yaml,2.9.0
-mesosphere-staging,traefik-forward-auth,traefik-forward-auth.yaml,0.2.14
-kubernetes-dashboard,kubernetes-dashboard,dashboard.yaml,2.8.2
