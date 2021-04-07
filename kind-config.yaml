@@ -1,9 +1,0 @@
-apiVersion: kind.x-k8s.io/v1alpha4
-kind: Cluster
-nodes:
-  - role: control-plane
-    extraMounts:
-      - containerPath: /etc/kubernetes/pki/ca.crt
-        hostPath: ./ca.crt
-      - containerPath: /etc/kubernetes/pki/ca.key
-        hostPath: ./ca.key
