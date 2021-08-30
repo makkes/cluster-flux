@@ -1,0 +1,19 @@
+digraph bootstrap {
+    node [shape=point]ENTRY,EXIT;
+    node [shape=circle, label=""];
+
+    ENTRY -> A [label="start kind cluster"];
+    A -> B [label="install metallb"];
+    B -> C [label="install cert-manager"];
+    ENTRY -> C [label="start and pivot\nAWS Konvoy cluster"];
+    C -> D [label="create CA secret\nwith public/private keypair"];
+    D -> E [label="create ClusterIssuer"];
+    E -> F [label="install ingress\ncontroller"];
+    F -> G [label="create traefik cert\nfrom root CA"];
+    G -> H [label="start Git server with\nIngress and cert from\nroot CA"];
+    H -> J [label="prime Git server with\n app definitions"];
+    J -> K [label="run `flux bootstrap`\nwith Git server"];
+    K -> L [label="create/update GitRepository\npointing to Git server"];
+    L -> EXIT[label="create/update Kustomization\npointing to management\ncluster services"]
+    EXIT -> H[label="upgrade Kommander"];
+}
