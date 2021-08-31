@@ -93,11 +93,33 @@ kubectl apply -f git-serverstransport.yaml \
 # Bootstrap Flux
 ####################################################
 
+(
+set +e
+TRIES=0
 FLUX_BIN=${FLUX_BIN:-flux}
-${FLUX_BIN} bootstrap git \
+
+while [ ${TRIES} -lt 30 ] && ! ${FLUX_BIN} bootstrap git \
     --password=git123 \
     --username=git \
     --url=https://git."${LB_IP}".sslip.io/repo \
     --path=flux \
     --ca-file="./ca.crt" \
-    --token-auth
+    --token-auth ; do
+    
+    sleep 1
+    ((TRIES++))
+done
+
+if [ "${TRIES}" -ge 30 ] ; then
+    >&2 echo "could not bootstrap Flux"
+    exit 1
+fi
+)
+
+####################################################
+# Let Flux take over cert-manager Helm release
+####################################################
+
+flux -n cert-manager create kustomization cert-manager \
+    --source=GitRepository/flux-system.flux-system \
+    --path="./apps/cert-manager"
