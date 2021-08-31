@@ -82,9 +82,9 @@ helm upgrade --install traefik traefik/traefik --set ports.websecure.tls.enabled
 # start and configure Git server
 ####################################################
 
-cat git-ingress.yaml git-ingress-cert.yaml | \
-    envsubst | \
-    kubectl apply -f -
+for i in git-ingress.yaml git-ingress-cert.yaml ; do
+    envsubst < "${i}" | kubectl apply -f -
+done
 kubectl apply -f git-serverstransport.yaml \
     -f gitserver.yaml \
     -f git-svc-cert.yaml
