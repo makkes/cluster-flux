@@ -24,7 +24,7 @@ spec:
         app: gitserver
     spec:
       containers:
-        - image: docker.io/makkes/gitserver:v0.6.0
+        - image: docker.io/makkes/gitserver:v0.7.1
           name: server
           env:
             - name: BOOTSTRAP_GIT_PASSWORD
